@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: '../common.gradle'
+
+Properties propertiesValues = new Properties()
+propertiesValues.load(project.rootProject.file('local.properties').newDataInputStream())
+
+android {
+    namespace 'yuki.makoto.weareable.pizzacounter'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "yuki.makoto.pizzacounter"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    signingConfigs {
+        wear {
+            storeFile(file(projectDir.parentFile.absolutePath + propertiesValues.getProperty("signing.path")))
+            storePassword(propertiesValues.getProperty("signing.password"))
+
+            keyAlias(propertiesValues.getProperty("signing.alias"))
+            keyPassword(propertiesValues.getProperty("signing.password"))
+        }
+    }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        normal {
+            dimension "version"
+        }
+        local {
+            dimension "version"
+            applicationIdSuffix ".testing"
+            versionNameSuffix "-testing"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig = signingConfigs.wear
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            signingConfig = signingConfigs.wear
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.0'
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    //Androidx Wear
+    implementation("androidx.percentlayout:percentlayout:1.0.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
+
+    //Android Compose Wear
+    implementation("androidx.wear.compose:compose-material:$wear_compose_version")
+    implementation("androidx.wear.compose:compose-foundation:$wear_compose_version")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
+}
+
