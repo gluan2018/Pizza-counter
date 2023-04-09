@@ -1,4 +1,4 @@
-package yuki.makoto.weareable.pizzacounter.presentation.screen
+package yuki.makoto.pizzacounter.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,12 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import yuki.makoto.connection.interfaces.WearableClient
 import yuki.makoto.connection.interfaces.WearableListener
-import yuki.makoto.weareable.pizzacounter.presentation.util.Action
-import yuki.makoto.weareable.pizzacounter.presentation.util.ActionCounter
+import yuki.makoto.pizzacounter.util.Action
+import yuki.makoto.pizzacounter.util.ActionCounter
 import javax.inject.Inject
 
 @HiltViewModel
-class CounterViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
     private val logger = Logger.t(this::class.simpleName)
 
     private val listenerWearable: WearableListener = WearableListener { byteArray ->

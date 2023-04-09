@@ -1,6 +1,6 @@
 dependencies {
     // Androidx
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")
 
@@ -15,6 +15,9 @@ dependencies {
     //Android Compose Testing
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+
+    //Logger
+    implementation("com.orhanobut:logger:2.2.0")
 
     //Connection
     implementation(project(":connection"))

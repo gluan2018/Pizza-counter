@@ -1,4 +1,4 @@
-package yuki.makoto.pizzacounter.ui.theme
+package yuki.makoto.pizzacounter.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,10 +1,10 @@
 package yuki.makoto.connection
 
-import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.NodeClient
+import com.orhanobut.logger.Printer
 import kotlinx.coroutines.*
 import yuki.makoto.connection.interfaces.WearableClient
 import yuki.makoto.connection.interfaces.WearableListener
@@ -12,7 +12,8 @@ import yuki.makoto.connection.util.Keys
 
 internal class AppWearable constructor(
     private val messageClient: MessageClient,
-    private val nodeClient: NodeClient
+    private val nodeClient: NodeClient,
+    private val logger: Printer,
 ) : WearableClient, MessageClient.OnMessageReceivedListener {
     private val coroutineScope = CoroutineScope(SupervisorJob())
     private val listeners: MutableList<WearableListener> = mutableListOf()
@@ -22,12 +23,13 @@ internal class AppWearable constructor(
         coroutineScope.launch(Dispatchers.IO) {
             runCatching {
                 val node = Tasks.await(nodeClient.localNode)
-                Log.i("NodeWear", "Node: ${node.id}, Name: ${node.displayName}")
+                logger.i("Node: ${node.id}, Name: ${node.displayName}")
             }.onFailure { it.printStackTrace() }
         }
     }
 
     override fun onMessageReceived(p0: MessageEvent) {
+        logger.i("New Event: $p0")
         if (p0.path != Keys.PATH)
             return
 
@@ -40,13 +42,16 @@ internal class AppWearable constructor(
     }
 
     override suspend fun send(byteArray: ByteArray): Boolean {
+        logger.i("Sending: ${byteArray.decodeToString()}")
         val result = withContext(Dispatchers.IO) {
             val nodeId = getNodeId() ?: return@withContext null
+            logger.i("Sending to: $nodeId")
             runCatching {
                 return@runCatching Tasks.await<Int?>(messageClient.sendMessage(nodeId, Keys.PATH, byteArray))
             }
         }
 
+        logger.i("Send successful: ${result != null && result.isSuccess}")
         return result != null && result.isSuccess
     }
 
@@ -72,6 +77,7 @@ internal class AppWearable constructor(
     }.getOrNull()
 
     private suspend fun notifyDataChange(byteArray: ByteArray) {
+        logger.i("Received: ${byteArray.decodeToString()}")
         withContext(Dispatchers.Main) {
             listeners.iterator().forEachRemaining { wearableListener ->
                 wearableListener.onMessage(byteArray)

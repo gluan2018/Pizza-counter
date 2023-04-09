@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.Text
-import yuki.makoto.weareable.pizzacounter.presentation.theme.Gray
 import yuki.makoto.weareable.pizzacounter.presentation.theme.White
 
 @Composable

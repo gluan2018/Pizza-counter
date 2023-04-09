@@ -1,4 +1,4 @@
-package yuki.makoto.pizzacounter.ui.theme
+package yuki.makoto.pizzacounter.theme
 
 import androidx.compose.ui.graphics.Color
 

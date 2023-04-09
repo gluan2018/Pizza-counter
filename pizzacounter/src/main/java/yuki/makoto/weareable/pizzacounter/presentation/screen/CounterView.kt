@@ -39,7 +39,7 @@ private fun Counter(callback: ActionCounter) {
         mutableStateOf(callback.current - 1)
     }
 
-    callback.setUpdateListener { newValue ->
+    callback.setOnSetCounterListener { newValue ->
         counter = newValue - 1
     }
 
@@ -79,13 +79,11 @@ private fun Counter(callback: ActionCounter) {
                     .background(BlackTransparent)
             ) {
                 AppButton(text = "+") {
-                    if (callback.plus())
-                        counter++
+                    counter = callback.plus() - 1
                 }
                 Spacer(modifier = Modifier.width(Dp(16f)))
                 AppButton(text = "-") {
-                    if (callback.minus())
-                        counter--
+                    counter = callback.minus() - 1
                 }
             }
         }
