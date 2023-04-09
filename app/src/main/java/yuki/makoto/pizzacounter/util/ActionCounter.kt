@@ -28,6 +28,7 @@ class ActionCounter(
 
     fun set(value: Int) {
         counter = value
+        onSetCallbackListener?.action(value)
     }
 
     fun setOnSetCounterListener(listener: Action<Int>?) {
