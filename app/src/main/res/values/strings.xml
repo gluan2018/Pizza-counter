@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pizza Counter</string>
+    <string name="count_pizza_complete" >/%d pizzas completas</string>
 </resources>

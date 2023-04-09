@@ -26,8 +26,7 @@ android {
         }
         local {
             dimension "version"
-            applicationIdSuffix ".testing"
-            versionNameSuffix "-testing"
+            versionNameSuffix "-debug"
         }
     }
 

@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import yuki.makoto.pizzacounter.util.ActionCounter
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class HomeActivity : ComponentActivity() {
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -23,7 +23,10 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun DefaultPreview() {
     HomeView(callback = ActionCounter(senderCallback = {}))
